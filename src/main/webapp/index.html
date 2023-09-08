@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CarTrade</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <!-- noUiSlider CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
+    <!-- jQuery and Popper.js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <!-- noUiSlider JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+</head>
+<script>
+    function redirect() {
+        window.location.href = "add.html";
+    }
+    $(document).ready(function () {
+        console.log('1');
+        function loadTasks() {
+            $.ajax({
+                cache: false,
+                type: 'GET',
+                url: '/cartrade/all.do',
+                dataType: 'json'
+            }).done(function (data) {
+                console.log('2');
+                var tbody = $('<tbody></tbody>');
+                for (const item of data) {
+                    var status = "Продается";
+                    if (item.sold) {
+                        status = "Продано";
+                    }
+                    var tr = $(
+                        '<tr>' +
+                        '<td><a href="/cartrade/about.html" data-id="' + item.id
+                        + '" class="link" ' +
+                        'onclick="return selectItem(' + item.id + ');"' +
+                        '>'
+                        + item.car.brand.name + '</a></td>' +
+                        '<td>' + item.car.body.name + '</td>' +
+                        '<td>' + item.price + '</td>' +
+                        '</tr>');
+                    tbody.append(tr);
+                }
+                $('#table').append(tbody);
+            }).fail(function () {
+            });
+        }
+        loadTasks();
+    });
+</script>
+<script>
+    function selectItem(id) {
+        console.log(id);
+        $.ajax({
+            cache: false,
+            url: '/todo/all.do',
+            type: 'POST',
+            data: { id: id }
+        }).done(function () {
+            console.log("Done");
+        }).fail(function () {
+            console.log("Error");
+        });
+    }
+</script>
+<body>
+<style>
+    #priceSlider .noUi-connect {
+        background-color: aliceblue;
+    }
+    .btn-secondary {
+        background-color: aliceblue;
+        color: #000;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" onclick="logout();">Выйти</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row py-4">
+        <div class="card" style="width: 100%">
+            <div class="card-body">
+                <div class="container">
+                    <div class="row">
+                    <!-- Фильтр "Марка" с Bootstrap Select -->
+                        <div class="col-2">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Марка
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <select multiple class="form-control" id="brands">
+                                        <option class="dropdown-item" href="#">1</option>
+                                        <option class="dropdown-item" href="#">2</option>
+                                        <option class="dropdown-item" href="#">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Фильтр "Тип кузова" с Bootstrap Select -->
+                        <div class="col-3">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary" type="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                    Тип кузова
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <select multiple class="form-control" id="bodies">
+                                        <option class="dropdown-item" href="#">a</option>
+                                        <option class="dropdown-item" href="#">b</option>
+                                        <option class="dropdown-item" href="#">c</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    <!-- Слайдер стоимости -->
+                        <div class="col-3">
+                            <div class="form-group">
+                                <div id="priceSlider"></div>
+                                <span id="priceRange">100,000р - 10,000,000р</span>
+                            </div>
+                        </div>
+                    <!-- Кнопка "Показать объявления" -->
+                        <div class="col-4">
+                            <button class="btn btn-primary" id="showAdsBtn">Показать объявления</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card" style="width: 100%">
+            <div class="card-header">
+                Все объявления
+            </div>
+            <div class="card-body">
+                <table class="table" id="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Марка</th>
+                        <th scope="col">Тип кузова</th>
+                        <th scope="col">Цена</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <button type="submit" class="btn btn-primary mt-3" onclick="return redirect();">Разместить объявление</button>
+    </div>
+
+    <!-- Здесь будут отображаться результаты фильтрации -->
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Инициализация noUiSlider
+        var priceSlider = document.getElementById('priceSlider');
+        var minPrice = 100000;
+        var maxPrice = 10000000;
+        noUiSlider.create(priceSlider, {
+            start: [minPrice, maxPrice],
+            connect: true,
+            step: 1000, // Шаг изменения
+            range: {
+                'min': minPrice,
+                'max': maxPrice
+            },
+            format: {
+                to: function (value) {
+                    return parseInt(value);
+                },
+                from: function (value) {
+                    return parseInt(value);
+                }
+            }
+        });
+
+        // Обработчик события изменения слайдера стоимости
+        priceSlider.noUiSlider.on('update', function (values, handle) {
+            $("#priceRange").text(values[0] + 'р - ' + values[1] + 'р');
+        });
+
+        $('.dropdown-item').click(function () {
+            $(this).toggleClass('selected-option'); // Добавьте или уберите класс "selected-option" при клике
+        });
+
+        //Обработчик события клика на кнопку "Показать объявления"
+        $("#showAdsBtn").click(function () {
+            var selectedBrands = $("#brands").val();
+            var selectedBodies = $("#bodies").val();
+            var priceRange = priceSlider.noUiSlider.get();
+            // Выполните фильтрацию объявлений с учетом выбранных параметров и отобразите результат
+            // Здесь можно использовать AJAX для загрузки и отображения объявлений
+            console.log("Выбранные марки:", selectedBrands);
+            console.log("Выбранные типы кузовов:", selectedBodies);
+            console.log("Диапазон цен:", priceRange);
+            // Добавьте код для отображения результатов фильтрации здесь
+        });
+
+        // Закрытие dropdown-menu при клике вне селекта
+        $('.dropdown').on('click', function (e) {
+            if ($(e.target).hasClass('dropdown-item')) {
+                e.stopPropagation();
+                $(e.target).toggleClass('selected');
+            }
+        });
+    });
+</script>
+</body>
+</html>
