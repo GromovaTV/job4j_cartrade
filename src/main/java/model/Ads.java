@@ -19,18 +19,18 @@ public class Ads {
     @OneToOne
     @JoinColumn(name = "car_id")
     private Car car;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ad_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Ads of(String description, boolean sold, int price, Car car, User user) {
+    public static Ads of(String description, boolean sold, int price, Car car, List<Photo> photos, User user) {
         Ads ads = new Ads();
         ads.setDescription(description);
         ads.setSold(sold);
         ads.setCar(car);
+        ads.setPhotos(photos);
         ads.setUser(user);
         ads.setCreated(new Date(System.currentTimeMillis()));
         return ads;

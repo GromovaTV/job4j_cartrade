@@ -14,13 +14,11 @@ import java.util.List;
 public class IndexService {
     private static final Gson GSON = new GsonBuilder().create();
 
-
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("START INDEX SERVLET get");
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
-        var res_ = AdsRepository.instOf();
-        List<Ads> res = res_.findAllAds();
+        List<Ads> res = AdsRepository.instOf().findAllAds();
         System.out.println(res);
         String json = GSON.toJson(res);
         output.write(json.getBytes(StandardCharsets.UTF_8));
@@ -32,6 +30,7 @@ public class IndexService {
     public void handlePost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("START INDEX SERVLET post");
         String id = req.getParameter("id");
+        System.out.println(id);
         var context = req.getServletContext();
         context.setAttribute("id", id);
         System.out.println("FINISH INDEX SERVLET post");
