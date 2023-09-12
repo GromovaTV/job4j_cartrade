@@ -1,10 +1,12 @@
 package repository;
 
 import model.Ads;
+import model.Car;
 import org.hibernate.query.Query;
 import java.util.List;
 
 public class AdsRepository extends CommonRepository implements AdsStore {
+
     private static final class Lazy {
         private static AdsStore INST;
     }
@@ -28,7 +30,47 @@ public class AdsRepository extends CommonRepository implements AdsStore {
                             "join fetch c.brand " +
                             "join fetch c.body " +
                             "join fetch a.user " +
-                            "join fetch a.photos");
+                            "left join fetch a.photos");
+                    List<Ads> list = query.list();
+                    return list;
+                }
+        );
+    }
+
+    @Override
+    public List<Ads> findByPrice(String minPrice, String maxPrice) {
+        return this.tx(
+                session -> {
+                    final Query query = session.createQuery("select distinct a from Ads a " +
+                            "join fetch a.car c " +
+                            "join fetch c.brand " +
+                            "join fetch c.body " +
+                            "join fetch a.user " +
+                            "left join fetch a.photos " +
+                            "where a.price BETWEEN :minPrice AND :maxPrice");
+                    query.setParameter("minPrice", Integer.parseInt(minPrice));
+                    query.setParameter("maxPrice", Integer.parseInt(maxPrice));
+                    List<Ads> list = query.list();
+                    return list;
+                }
+        );
+    }
+
+    @Override
+    public List<Ads> findByCarAndPrice(List<Car> cars, String minPrice, String maxPrice) {
+        return this.tx(
+                session -> {
+                    final Query query = session.createQuery("select distinct a from Ads a " +
+                            "join fetch a.car c " +
+                            "join fetch c.brand " +
+                            "join fetch c.body " +
+                            "join fetch a.user " +
+                            "left join fetch a.photos " +
+                            "where a.price BETWEEN :minPrice AND :maxPrice "
+                            + "and c in (:cars)");
+                    query.setParameterList("cars", cars);
+                    query.setParameter("minPrice", Integer.parseInt(minPrice));
+                    query.setParameter("maxPrice", Integer.parseInt(maxPrice));
                     List<Ads> list = query.list();
                     return list;
                 }

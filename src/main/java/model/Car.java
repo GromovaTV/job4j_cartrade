@@ -48,4 +48,13 @@ public class Car {
     public void setBody(Body body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "Car{"
+                + "id=" + id
+                + ", brand=" + brand
+                + ", body=" + body
+                + '}';
+    }
 }

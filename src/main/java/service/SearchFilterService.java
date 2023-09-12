@@ -2,10 +2,19 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Ads;
+import model.Car;
 import model.SearchFilter;
+import repository.AdsRepository;
+import repository.CarRepository;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.List;
 
 public class SearchFilterService {
     private static final Gson GSON = new GsonBuilder().create();
@@ -17,6 +26,27 @@ public class SearchFilterService {
         System.out.println("START SearchFilter SERVLET");
         SearchFilter searchFilter = GSON.fromJson(req.getReader(), SearchFilter.class);
         System.out.println(searchFilter.toString());
+        List<Car> cars;
+        List<Ads> res;
+        String min = searchFilter.getMin();
+        String max = searchFilter.getMax();
+        String[] brands = searchFilter.getBrands();
+        String[] bodies = searchFilter.getBodies();
+        System.out.println(Arrays.toString(brands));
+        System.out.println(Arrays.toString(bodies));
+        if (brands.length == 0 && bodies.length == 0) {
+            res = AdsRepository.instOf().findByPrice(min, max);
+        } else {
+            cars = CarRepository.instOf().findCars(brands, bodies);
+            res = AdsRepository.instOf().findByCarAndPrice(cars, min, max);
+        }
+        System.out.println(res);
+        resp.setContentType("application/json; charset=utf-8");
+        OutputStream output = resp.getOutputStream();
+        String json = GSON.toJson(res);
+        output.write(json.getBytes(StandardCharsets.UTF_8));
+        output.flush();
+        output.close();
         System.out.println("FINISH SearchFilter SERVLET");
     }
 }

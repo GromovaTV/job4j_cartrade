@@ -87,7 +87,7 @@
             cache: false,
             type: 'POST',
             url: '/cartrade/searchfilter',
-            contentType: 'application/json',
+            contentType: 'application/json; charset=UTF-8',
             data: JSON.stringify({
                 brands: selectedBrands,
                 bodies: selectedBodies,
@@ -95,8 +95,29 @@
                 max:  priceRange[1]
             }),
             dataType: 'json'
-        }).done(function () {
-            console.log("Done");
+        }).done(function (data) {
+            console.log("1");
+            $('#table tbody').remove();
+            console.log("2");
+            var tbody = $('<tbody></tbody>');
+            for (const item of data) {
+                var status = "Продается";
+                if (item.sold) {
+                    status = "Продано";
+                }
+                var tr = $(
+                    '<tr>' +
+                    '<td><a href="/cartrade/about.html" data-id="' + item.id
+                    + '" class="link" ' +
+                    'onclick="return selectItem(' + item.id + ');"' +
+                    '>'
+                    + item.car.brand.name + '</a></td>' +
+                    '<td>' + item.car.body.name + '</td>' +
+                    '<td>' + item.price + '</td>' +
+                    '</tr>');
+                tbody.append(tr);
+            }
+            $('#table').append(tbody);
         }).fail(function () {
             console.log("Error");
         });
@@ -179,9 +200,12 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <select multiple class="form-control" id="brands">
-                                        <option class="dropdown-item" href="#">1</option>
-                                        <option class="dropdown-item" href="#">2</option>
-                                        <option class="dropdown-item" href="#">3</option>
+                                        <option class="dropdown-item" href="#">Audi</option>
+                                        <option class="dropdown-item" href="#">BMW</option>
+                                        <option class="dropdown-item" href="#">Mercedes-Benz</option>
+                                        <option class="dropdown-item" href="#">Land Rover</option>
+                                        <option class="dropdown-item" href="#">Tesla</option>
+                                        <option class="dropdown-item" href="#">Volkswagen</option>
                                     </select>
                                 </div>
                             </div>
@@ -195,9 +219,12 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <select multiple class="form-control" id="bodies">
-                                        <option class="dropdown-item" href="#">a</option>
-                                        <option class="dropdown-item" href="#">b</option>
-                                        <option class="dropdown-item" href="#">c</option>
+                                        <option class="dropdown-item" href="#">Хетчбэк</option>
+                                        <option class="dropdown-item" href="#">Седан</option>
+                                        <option class="dropdown-item" href="#">Универсал</option>
+                                        <option class="dropdown-item" href="#">Кабриолет</option>
+                                        <option class="dropdown-item" href="#">Купе</option>
+                                        <option class="dropdown-item" href="#">Внедорожник</option>
                                     </select>
                                 </div>
                             </div>
