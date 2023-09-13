@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <title>CarTrade</title>
+    <!--<script src="../js/logout.js"></script>-->
+</head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
+<script>
+    function logout() {
+        console.log(logout);
+        $.ajax({
+            cache: false,
+            url: '/cartrade/logout.do',
+            type: 'GET'
+        }).done(function () {
+            window.location.href = "/todo/login.jsp";
+        }).fail(function () {
+            console.log("Error");
+        });
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/cartrade/edit.do',
+            dataType: 'json'
+        }).done(function (data) {
+            $('#brands').val(data.brand);
+            $('#bodies').val(data.body);
+            // $('#created').val(data.created);
+            $('#price').val(data.price);
+            $('#description').val(data.description);
+            if (data.sold) {
+                $('#sold').prop('checked', true);
+            }
+            console.log("done");
+        }).fail(function () {
+            console.log("Error");
+        });
+    });
+</script>
+<script>
+    function saveChanges() {
+        console.log("Start");
+        $.ajax({
+            cache: false,
+            url: '/cartrade/edit.do',
+            type: 'POST',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({
+                brand: $('#brands').val(),
+                body: $('#bodies').val(),
+                price: $('#price').val(),
+                description: $('#description').val(),
+                sold: $('#sold').prop('checked')
+            }),
+            dataType: 'json'
+        }).done(function () {
+            console.log("Done");
+        }).fail(function () {
+            console.log("Error");
+        });
+    }
+</script>
+<body>
+<div class="container">
+    <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/cartrade/login.jsp" onclick="logout();">Выйти</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="card my-4" style="width: 100%">
+            <div class="card-header">
+                Объявление
+            </div>
+            <div class="card-body">
+                <div class="container mt-4">
+                    <form>
+                        <div class="form-group">
+                            <select class="form-control" id="brands">
+                                <option class="dropdown-item" href="#">Audi</option>
+                                <option class="dropdown-item" href="#">BMW</option>
+                                <option class="dropdown-item" href="#">Mercedes-Benz</option>
+                                <option class="dropdown-item" href="#">Land Rover</option>
+                                <option class="dropdown-item" href="#">Tesla</option>
+                                <option class="dropdown-item" href="#">Volkswagen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="bodies">
+                                <option class="dropdown-item" href="#">Хетчбэк</option>
+                                <option class="dropdown-item" href="#">Седан</option>
+                                <option class="dropdown-item" href="#">Универсал</option>
+                                <option class="dropdown-item" href="#">Кабриолет</option>
+                                <option class="dropdown-item" href="#">Купе</option>
+                                <option class="dropdown-item" href="#">Внедорожник</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Описание</label>
+                            <textarea class="form-control" id="description" rows="3" placeholder="Введите описание"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Стоимость</label>
+                            <input class="form-control" id="price" rows="1" placeholder="Введите стоимость">
+                        </div>
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="sold">
+                            <label class="form-check-label" for="sold">Продано</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-3" onclick="return saveChanges();">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
