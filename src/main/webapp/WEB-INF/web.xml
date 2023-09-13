@@ -9,15 +9,39 @@
     <servlet-class>controller.IndexServlet</servlet-class>
   </servlet>
   <servlet>
+    <servlet-name>AboutServlet</servlet-name>
+    <servlet-class>controller.AboutServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>PhotoUploadServlet</servlet-name>
+    <servlet-class>controller.PhotoUploadServlet</servlet-class>
+  </servlet>
+  <servlet>
     <servlet-name>SearchFilterServlet</servlet-name>
     <servlet-class>controller.SearchFilterServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>EditServlet</servlet-name>
+    <servlet-class>controller.EditServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/all.do</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
+    <servlet-name>AboutServlet</servlet-name>
+    <url-pattern>/about.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PhotoUploadServlet</servlet-name>
+    <url-pattern>/upload</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
     <servlet-name>SearchFilterServlet</servlet-name>
     <url-pattern>/searchfilter</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>EditServlet</servlet-name>
+    <url-pattern>/edit.do</url-pattern>
   </servlet-mapping>
 </web-app>

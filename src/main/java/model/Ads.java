@@ -95,6 +95,14 @@ public class Ads {
         this.created = created;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
     @Override
     public String toString() {
         return "Ad{"
@@ -103,6 +111,7 @@ public class Ads {
                 + ", sold=" + sold + '\''
                 + ", created=" + created + '\''
                 + ", car=" + car + '\''
+                + ", price=" + price + '\''
                 + ", photos=" + photos + '\''
                 + ", user=" + user + '\''
                 + '}';

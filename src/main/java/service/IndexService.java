@@ -16,6 +16,8 @@ public class IndexService {
 
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("START INDEX SERVLET get");
+        var context = req.getServletContext();
+        context.setAttribute("id", null);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
         List<Ads> res = AdsRepository.instOf().findAllAds();

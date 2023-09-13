@@ -79,6 +79,18 @@ public class AdsRepository extends CommonRepository implements AdsStore {
 
     @Override
     public Ads findAdsById(int id) {
-        return null;
+        return this.tx(
+                session -> {
+                    final Query query = session.createQuery("select distinct a from Ads a " +
+                            "join fetch a.car c " +
+                                    "join fetch c.brand " +
+                                    "join fetch c.body " +
+                                    "join fetch a.user " +
+                                    "left join fetch a.photos " +
+                            "where a.id=:id");
+                    query.setParameter("id", id);
+                    return (Ads) query.uniqueResult();
+                }
+        );
     }
 }
