@@ -30,7 +30,19 @@ public class Ads {
         ads.setDescription(description);
         ads.setSold(sold);
         ads.setCar(car);
+        ads.setPrice(price);
         ads.setPhotos(photos);
+        ads.setUser(user);
+        ads.setCreated(new Date(System.currentTimeMillis()));
+        return ads;
+    }
+
+    public static Ads of(String description, boolean sold, int price, Car car, User user) {
+        Ads ads = new Ads();
+        ads.setDescription(description);
+        ads.setSold(sold);
+        ads.setCar(car);
+        ads.setPrice(price);
         ads.setUser(user);
         ads.setCreated(new Date(System.currentTimeMillis()));
         return ads;

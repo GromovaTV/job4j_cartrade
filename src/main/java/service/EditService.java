@@ -2,16 +2,17 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import model.Ads;
-import model.AdsDTO;
+import model.*;
 import repository.AdsRepository;
+import repository.CarRepository;
+import repository.UserRepository;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-
 
 public class EditService {
     private static final Gson GSON = new GsonBuilder().create();
@@ -45,10 +46,22 @@ public class EditService {
         System.out.println(adsDTO.toString());
         var context = req.getServletContext();
         Object id = context.getAttribute("id");
+        String brandName = adsDTO.getBrand();
+        String bodyName = adsDTO.getBody();
+        int price = adsDTO.getPrice();
+        String desc = adsDTO.getDescription();
+        boolean sold = adsDTO.isSold();
+        User user = UserRepository.instOf().findUserById(1);
         if (id != null) {
             // update ads
         } else {
             // save ads
+            Brand brand = CarRepository.instOf().findBrand(brandName);
+            Body body = CarRepository.instOf().findBody(bodyName);
+            Car car = Car.of(brand, body);
+            CarRepository.instOf().save(car);
+            Ads ads = Ads.of(desc, sold, price, car, user);
+            AdsRepository.instOf().save(ads);
         }
 //        int id = Integer.parseInt(context.getAttribute("id").toString());
 //        HbnStore.instOf().edit(id, item.getName(), item.getDescription(), item.isDone());

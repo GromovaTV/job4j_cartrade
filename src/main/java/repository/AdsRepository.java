@@ -93,4 +93,14 @@ public class AdsRepository extends CommonRepository implements AdsStore {
                 }
         );
     }
+
+    @Override
+    public void save(Ads ads) {
+        this.tx(
+                session -> {
+                    session.save(ads);
+                    return ads;
+                }
+        );
+    }
 }

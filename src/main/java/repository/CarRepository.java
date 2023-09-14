@@ -1,5 +1,7 @@
 package repository;
 
+import model.Body;
+import model.Brand;
 import model.Car;
 import org.hibernate.query.Query;
 import java.util.List;
@@ -66,6 +68,42 @@ public class CarRepository extends CommonRepository implements CarStore {
                     query.setParameterList("bodies", bodies);
                     List<Car> list = query.list();
                     return list;
+                }
+        );
+    }
+
+    @Override
+    public Brand findBrand(String brandName) {
+        return this.tx(
+                session -> {
+                    Query query = session.createQuery("select distinct b from Brand b " +
+                            "where b.name =:name");
+                    query.setParameter("name", brandName);
+                    Brand brand = (Brand) query.uniqueResult();
+                    return brand;
+                }
+        );
+    }
+
+    @Override
+    public Body findBody(String bodyName) {
+        return this.tx(
+                session -> {
+                    Query query = session.createQuery("select distinct b from Body b " +
+                            "where b.name =:name");
+                    query.setParameter("name", bodyName);
+                    Body body = (Body) query.uniqueResult();
+                    return body;
+                }
+        );
+    }
+
+    @Override
+    public void save(Car car) {
+        this.tx(
+                session -> {
+                    session.save(car);
+                    return car;
                 }
         );
     }

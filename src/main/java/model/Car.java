@@ -18,7 +18,7 @@ public class Car {
     private Body body;
 
 
-    public static Car of(int price, Brand brand, Body body) {
+    public static Car of(Brand brand, Body body) {
         Car car = new Car();
         car.setBrand(brand);
         car.setBody(body);
