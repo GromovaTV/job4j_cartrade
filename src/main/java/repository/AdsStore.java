@@ -9,5 +9,5 @@ public interface AdsStore {
     List<Ads> findByCarAndPrice(List<Car> cars, String minPrice, String maxPrice);
     List<Ads> findByPrice(String minPrice, String maxPrice);
     Ads findAdsById(int id);
-    void save(Ads ads);
+    void saveOrUpdate(Ads ads);
 }

@@ -95,10 +95,10 @@ public class AdsRepository extends CommonRepository implements AdsStore {
     }
 
     @Override
-    public void save(Ads ads) {
+    public void saveOrUpdate(Ads ads) {
         this.tx(
                 session -> {
-                    session.save(ads);
+                    session.saveOrUpdate(ads);
                     return ads;
                 }
         );

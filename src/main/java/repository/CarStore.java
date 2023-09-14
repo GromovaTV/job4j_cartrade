@@ -9,5 +9,5 @@ public interface CarStore {
     List<Car> findCars(String[] brands, String[] bodies);
     Brand findBrand(String brandName);
     Body findBody(String bodyName);
-    void save(Car car);
+    void saveOrUpdate(Car car);
 }

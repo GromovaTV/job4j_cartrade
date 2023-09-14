@@ -99,10 +99,10 @@ public class CarRepository extends CommonRepository implements CarStore {
     }
 
     @Override
-    public void save(Car car) {
+    public void saveOrUpdate(Car car) {
         this.tx(
                 session -> {
-                    session.save(car);
+                    session.saveOrUpdate(car);
                     return car;
                 }
         );

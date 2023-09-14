@@ -6,7 +6,6 @@ import model.*;
 import repository.AdsRepository;
 import repository.CarRepository;
 import repository.UserRepository;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -52,19 +51,18 @@ public class EditService {
         String desc = adsDTO.getDescription();
         boolean sold = adsDTO.isSold();
         User user = UserRepository.instOf().findUserById(1);
+        Brand brand = CarRepository.instOf().findBrand(brandName);
+        Body body = CarRepository.instOf().findBody(bodyName);
+        Car car = Car.of(brand, body);
+        Ads ads = Ads.of(desc, sold, price, car, user);
         if (id != null) {
-            // update ads
-        } else {
-            // save ads
-            Brand brand = CarRepository.instOf().findBrand(brandName);
-            Body body = CarRepository.instOf().findBody(bodyName);
-            Car car = Car.of(brand, body);
-            CarRepository.instOf().save(car);
-            Ads ads = Ads.of(desc, sold, price, car, user);
-            AdsRepository.instOf().save(ads);
+            Ads a = AdsRepository.instOf().findAdsById(Integer.parseInt(id.toString()));
+            Car c = a.getCar();
+            car.setId(c.getId());
+            ads.setId(a.getId());
         }
-//        int id = Integer.parseInt(context.getAttribute("id").toString());
-//        HbnStore.instOf().edit(id, item.getName(), item.getDescription(), item.isDone());
+        CarRepository.instOf().saveOrUpdate(car);
+        AdsRepository.instOf().saveOrUpdate(ads);
         System.out.println("FINISH SAVE");
     }
 }
