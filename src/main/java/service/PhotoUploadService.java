@@ -2,17 +2,21 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Ads;
+import model.Photo;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import repository.AdsRepository;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import javax.servlet.http.Part;
+import java.io.*;
+import java.nio.file.Path;
 import java.util.List;
 
 public class PhotoUploadService extends HttpServlet {
@@ -26,29 +30,39 @@ public class PhotoUploadService extends HttpServlet {
     public void handlePost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         System.out.println("START PHOTO UPLOAD SERVLET post");
         DiskFileItemFactory factory = new DiskFileItemFactory();
-        ServletContext servletContext = this.getServletConfig().getServletContext();
+        ServletContext servletContext = req.getServletContext();
         File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
         factory.setRepository(repository);
         ServletFileUpload upload = new ServletFileUpload(factory);
-        String id = req.getParameter("id");
+        String id = servletContext.getAttribute("id").toString();
         try {
+            System.out.println("6");
             List<FileItem> items = upload.parseRequest(req);
-            File folder = new File("c:\\images\\" + id + "\\");
+            File folder = new File("c:\\cartrade_images\\");
             if (!folder.exists()) {
                 folder.mkdir();
             }
             for (FileItem item : items) {
+                System.out.println("7");
                 if (!item.isFormField() && item.getSize() != 0) {
-                    File file = new File(folder + File.separator + id + ".jpg");
+                    String path = folder + File.separator + item.getName();
+                    File file = new File(path);
+                    Photo photo = Photo.of(path);
+                    Ads ads = AdsRepository.instOf().findAdsById(Integer.parseInt(id));
+                    System.out.println(ads.toString());
                     try (FileOutputStream out = new FileOutputStream(file)) {
+                        System.out.println("8");
                         out.write(item.getInputStream().readAllBytes());
+                        AdsRepository.instOf().savePhoto(photo);
+                        ads.addPhoto(photo);
+                        AdsRepository.instOf().saveOrUpdate(ads);
                     }
                 }
             }
         } catch (FileUploadException e) {
+            System.out.println("9");
             e.printStackTrace();
         }
-//        doGet(req, resp);
         System.out.println("FINISH PHOTO UPLOAD SERVLET post");
     }
 }

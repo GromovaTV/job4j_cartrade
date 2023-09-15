@@ -25,17 +25,17 @@ public class Ads {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static Ads of(String description, boolean sold, int price, Car car, List<Photo> photos, User user) {
-        Ads ads = new Ads();
-        ads.setDescription(description);
-        ads.setSold(sold);
-        ads.setCar(car);
-        ads.setPrice(price);
-        ads.setPhotos(photos);
-        ads.setUser(user);
-        ads.setCreated(new Date(System.currentTimeMillis()));
-        return ads;
-    }
+//    public static Ads of(String description, boolean sold, int price, Car car, List<Photo> photos, User user) {
+//        Ads ads = new Ads();
+//        ads.setDescription(description);
+//        ads.setSold(sold);
+//        ads.setCar(car);
+//        ads.setPrice(price);
+//        ads.setPhotos(photos);
+//        ads.setUser(user);
+//        ads.setCreated(new Date(System.currentTimeMillis()));
+//        return ads;
+//    }
 
     public static Ads of(String description, boolean sold, int price, Car car, User user) {
         Ads ads = new Ads();
@@ -51,6 +51,7 @@ public class Ads {
     public void addPhoto(Photo photo) {
         this.photos.add(photo);
     }
+
     public int getId() {
         return id;
     }

@@ -2,6 +2,7 @@ package repository;
 
 import model.Ads;
 import model.Car;
+import model.Photo;
 import org.hibernate.query.Query;
 import java.util.List;
 
@@ -100,6 +101,16 @@ public class AdsRepository extends CommonRepository implements AdsStore {
                 session -> {
                     session.saveOrUpdate(ads);
                     return ads;
+                }
+        );
+    }
+
+    @Override
+    public void savePhoto(Photo photo) {
+        this.tx(
+                session -> {
+                    session.saveOrUpdate(photo);
+                    return photo;
                 }
         );
     }
