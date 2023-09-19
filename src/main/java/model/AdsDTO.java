@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Date;
+import java.util.List;
 
 public class AdsDTO {
     private String brand;
@@ -10,6 +11,7 @@ public class AdsDTO {
     private boolean sold;
     private Date created;
     private boolean user;
+    private List<String> paths;
 
     public AdsDTO() {
     }
@@ -70,6 +72,14 @@ public class AdsDTO {
         this.user = user;
     }
 
+    public List<String> getPaths() {
+        return paths;
+    }
+
+    public void setPaths(List<String> paths) {
+        this.paths = paths;
+    }
+
     @Override
     public String toString() {
         return "AdsDTO{"
@@ -79,6 +89,7 @@ public class AdsDTO {
                 + ", description='" + description + '\''
                 + ", sold=" + sold
                 + ", created=" + created
+                + ", paths=" + paths
                 + ", user=" + user
                 + '}';
     }
