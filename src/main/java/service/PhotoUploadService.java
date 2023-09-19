@@ -43,7 +43,6 @@ public class PhotoUploadService extends HttpServlet {
                 folder.mkdir();
             }
             for (FileItem item : items) {
-                System.out.println("7");
                 if (!item.isFormField() && item.getSize() != 0) {
                     String path = folder + File.separator + item.getName();
                     File file = new File(path);
@@ -51,7 +50,6 @@ public class PhotoUploadService extends HttpServlet {
                     Ads ads = AdsRepository.instOf().findAdsById(Integer.parseInt(id));
                     System.out.println(ads.toString());
                     try (FileOutputStream out = new FileOutputStream(file)) {
-                        System.out.println("8");
                         out.write(item.getInputStream().readAllBytes());
                         AdsRepository.instOf().savePhoto(photo);
                         ads.addPhoto(photo);
@@ -60,7 +58,6 @@ public class PhotoUploadService extends HttpServlet {
                 }
             }
         } catch (FileUploadException e) {
-            System.out.println("9");
             e.printStackTrace();
         }
         System.out.println("FINISH PHOTO UPLOAD SERVLET post");

@@ -24,6 +24,10 @@
     <servlet-name>EditServlet</servlet-name>
     <servlet-class>controller.EditServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ImageServlet</servlet-name>
+    <servlet-class>controller.ImageServlet</servlet-class>
+  </servlet>
   <servlet-mapping>
     <servlet-name>IndexServlet</servlet-name>
     <url-pattern>/all.do</url-pattern>
@@ -43,5 +47,9 @@
   <servlet-mapping>
     <servlet-name>EditServlet</servlet-name>
     <url-pattern>/edit.do</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ImageServlet</servlet-name>
+    <url-pattern>/image.do</url-pattern>
   </servlet-mapping>
 </web-app>
