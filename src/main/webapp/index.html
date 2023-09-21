@@ -29,33 +29,62 @@
 </script>
 <script>
     $(document).ready(function () {
-        console.log('1');
         $.ajax({
             cache: false,
             type: 'GET',
             url: '/cartrade/all.do',
             dataType: 'json'
         }).done(function (data) {
-            console.log('2');
             var tbody = $('<tbody></tbody>');
             for (const item of data) {
                 var status = "Продается";
                 if (item.sold) {
                     status = "Продано";
                 }
+                let fileName = "placeholder.png";
+                if (item.photos.length > 0) {
+                    const photo = item.photos[0];
+                    const nameParts = photo.path.split("\\");
+                    fileName = nameParts[2];
+                    console.log(fileName);
+                }
                 var tr = $(
                     '<tr>' +
+                    '<td><img src="/cartrade/download.do?name=' + fileName + '" width="100px" height="100px"/></td>' +
                     '<td><a href="/cartrade/about.html" data-id="' + item.id
                     + '" class="link" ' +
                     'onclick="return selectItem(' + item.id + ');"' +
                     '>'
                     + item.car.brand.name + '</a></td>' +
                     '<td>' + item.car.body.name + '</td>' +
-                    '<td>' + item.price + '</td>' +
+                    '<td>' + item.price + "р." + '</td>' +
                     '</tr>');
                 tbody.append(tr);
             }
             $('#table').append(tbody);
+        }).fail(function () {
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/cartrade/auth.do',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data) {
+                var li = $('<li class="nav-item">\n' +
+                    '<a class="nav-link pr-1" href="#" onclick="">' + data.name + " |" + '</a></li>' +
+                    '<li class="nav-item"><a class="nav-link pl-1" href="#" onclick="logout();">Выйти</a>\n' +
+                    '</li>');
+            } else {
+                var li = $('<li class="nav-item">\n' +
+                    '<a class="nav-link" href="/cartrade/login.html">Войти</a>\n' +
+                    '</li>');
+            }
+            $('.nav').append(li);
         }).fail(function () {
         });
     });
@@ -96,9 +125,7 @@
             }),
             dataType: 'json'
         }).done(function (data) {
-            console.log("1");
             $('#table tbody').remove();
-            console.log("2");
             var tbody = $('<tbody></tbody>');
             for (const item of data) {
                 var status = "Продается";
@@ -181,9 +208,6 @@
             <li class="nav-item">
                 <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" onclick="logout();">Выйти</a>
-            </li>
         </ul>
     </div>
     <div class="row py-4">
@@ -254,6 +278,7 @@
                 <table class="table" id="table">
                     <thead>
                     <tr>
+                        <th scope="col">Фото</th>
                         <th scope="col">Марка</th>
                         <th scope="col">Тип кузова</th>
                         <th scope="col">Цена</th>

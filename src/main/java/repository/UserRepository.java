@@ -30,4 +30,27 @@ public class UserRepository extends CommonRepository implements UserStore {
                 }
         );
     }
+
+    @Override
+    public User findUserByEmail(String email) {
+        return this.tx(
+                session -> {
+                    Query query = session.createQuery("select distinct u from User u " +
+                            "where u.email =:email");
+                    query.setParameter("email", email);
+                    User user = (User) query.uniqueResult();
+                    return user;
+                }
+        );
+    }
+
+    @Override
+    public void save(User user) {
+        this.tx(
+                session -> {
+                    session.save(user);
+                    return user;
+                }
+        );
+    }
 }

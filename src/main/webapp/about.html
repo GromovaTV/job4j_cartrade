@@ -37,7 +37,7 @@
 <script>
     function loadPhoto(path) {
         var div = $('<div class="carousel-item"></div>');
-        var img = $('<img src="' + path + '" width="auto" height="200px"/>');
+        var img = $('<img src="' + path + '" width="100%" height="auto"/>');
         div.append(img);
         $('.carousel-inner').append(div);
     }
@@ -112,33 +112,33 @@
             <div class="container mt-4">
                 <div class="row">
                     <div class="col-md-6">
+                        <div id="carouselExampleIndicators" class="carousel slide">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                            </ol>
+                            <div class="carousel-inner">
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
                         <p>Тип кузова: <span id="body"></span></p>
                         <p>Статус: <span id="sold"></span></p>
                         <p>Создано: <span id="created"></span></p>
-                    </div>
-                    <div class="col-md-6">
                         <p id="description"></p>
                     </div>
                 </div>
                 <div class="row">
-                    <div id="carouselExampleIndicators" class="carousel slide">
-                        <ol class="carousel-indicators">
-                            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                        </ol>
-                        <div class="carousel-inner">
-                        </div>
-                        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
-
                 </div>
             </div>
         </div>

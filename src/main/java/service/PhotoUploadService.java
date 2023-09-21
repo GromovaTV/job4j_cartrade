@@ -10,13 +10,10 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import repository.AdsRepository;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 import java.io.*;
-import java.nio.file.Path;
 import java.util.List;
 
 public class PhotoUploadService extends HttpServlet {
@@ -36,7 +33,6 @@ public class PhotoUploadService extends HttpServlet {
         ServletFileUpload upload = new ServletFileUpload(factory);
         String id = servletContext.getAttribute("id").toString();
         try {
-            System.out.println("6");
             List<FileItem> items = upload.parseRequest(req);
             File folder = new File("c:\\cartrade_images\\");
             if (!folder.exists()) {

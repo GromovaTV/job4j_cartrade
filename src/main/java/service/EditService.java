@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class EditService {
     private static final Gson GSON = new GsonBuilder().create();
@@ -57,6 +58,8 @@ public class EditService {
         Ads ads = Ads.of(desc, sold, price, car, user);
         if (id != null) {
             Ads a = AdsRepository.instOf().findAdsById(Integer.parseInt(id.toString()));
+            List<Photo> photos = a.getPhotos();
+            ads.setPhotos(photos);
             Car c = a.getCar();
             car.setId(c.getId());
             ads.setId(a.getId());
