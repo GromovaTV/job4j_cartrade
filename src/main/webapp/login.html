@@ -45,7 +45,8 @@
             data: {
                 email: email,
                 password: password
-            }
+            },
+            dataType: 'json'
         }).done(function (data) {
         }).fail(function () {
             console.log("Error");
@@ -63,11 +64,11 @@
                 <div class="container">
                     <form>
                         <div class="form-group">
-                            <label>Почта</label>
+                            <label for="email">Почта</label>
                             <input type="text" class="form-control" id="email" title="Введите почту" name="email">
                         </div>
                         <div class="form-group">
-                            <label>Пароль</label>
+                            <label for="password">Пароль</label>
                             <input type="password" class="form-control" id="password" title="Введите пароль"
                                    name="password">
                         </div>

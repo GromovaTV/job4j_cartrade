@@ -16,8 +16,9 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
-    <title>Работа мечты</title>
+    <title>CarTrade</title>
 </head>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 <script>
     function validate() {
         const name = $('#name').val();
@@ -40,9 +41,13 @@
 </script>
 <script>
     function reg() {
+        console.log("reg")
         const name = $("#name").val();
+        console.log(name);
         const email = $("#email").val();
+        console.log(email);
         const password = $("#password").val();
+        console.log(password);
         $.ajax({
             cache: false,
             url: '/cartrade/reg.do',
@@ -52,7 +57,8 @@
                 email: email,
                 password: password
             }
-        }).done(function (data) {
+        }).done(function () {
+            console.log("Done");
         }).fail(function () {
             console.log("Error");
         });
@@ -68,15 +74,15 @@
             <div class="card-body">
                 <form>
                     <div class="form-group">
-                        <label>Имя пользователя</label>
+                        <label for="name">Имя пользователя</label>
                         <input type="text" class="form-control" name="name" id="name" title="Введите имя">
                     </div>
                     <div class="form-group">
-                        <label>Почта</label>
+                        <label for="email">Почта</label>
                         <input type="text" class="form-control" name="email" id="email" title="Введите почту">
                     </div>
                     <div class="form-group">
-                        <label>Пароль</label>
+                        <label for="password">Пароль</label>
                         <input type="password" class="form-control" name="password" id="password" title="Введите пароль">
                     </div>
                     <button type="submit" class="btn btn-primary" onclick="reg();">Зарегистрироваться</button>

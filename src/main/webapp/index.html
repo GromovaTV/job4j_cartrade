@@ -50,6 +50,7 @@
                 }
                 var tr = $(
                     '<tr>' +
+                    '<td id="'+ item.user.id + '">' + item.user.name + '</td>' +
                     '<td><img src="/cartrade/download.do?name=' + fileName + '" width="100px" height="100px"/></td>' +
                     '<td><a href="/cartrade/about.html" data-id="' + item.id
                     + '" class="link" ' +
@@ -60,11 +61,28 @@
                     '<td>' + item.price + "р." + '</td>' +
                     '</tr>');
                 tbody.append(tr);
+                // auth_check(item.user.id, item.user.name);
             }
             $('#table').append(tbody);
         }).fail(function () {
         });
     });
+</script>
+<script>
+    function auth_check(id, name) {
+        $.ajax({
+            cache: false,
+            type: 'GET',
+            url: '/cartrade/auth.do',
+            dataType: 'json'
+        }).done(function (data) {
+            if (data.name === name) {
+                var img = $('\n<a href="edit.html">Редактировать</a>');
+            }
+            $('#' + id).append(img);
+        }).fail(function () {
+        });
+    }
 </script>
 <script>
     $(document).ready(function () {
@@ -82,12 +100,28 @@
             } else {
                 var li = $('<li class="nav-item">\n' +
                     '<a class="nav-link" href="/cartrade/login.html">Войти</a>\n' +
+                    '</li>' +
+                    '<li class="nav-item">\n' +
+                    '<a class="nav-link" href="/cartrade/reg.html">Регистрация</a>\n' +
                     '</li>');
             }
             $('.nav').append(li);
         }).fail(function () {
         });
     });
+</script>
+<script>
+    function logout() {
+        console.log(logout);
+        $.ajax({
+            cache: false,
+            url: '/cartrade/logout.do',
+            type: 'GET'
+        }).done(function () {
+        }).fail(function () {
+            console.log("Error");
+        });
+    }
 </script>
 <script>
     function selectItem(id) {
@@ -134,6 +168,7 @@
                 }
                 var tr = $(
                     '<tr>' +
+                    '<td>' + item.user.name + '</td>' +
                     '<td><a href="/cartrade/about.html" data-id="' + item.id
                     + '" class="link" ' +
                     'onclick="return selectItem(' + item.id + ');"' +
@@ -278,6 +313,7 @@
                 <table class="table" id="table">
                     <thead>
                     <tr>
+                        <th scope="col">Автор</th>
                         <th scope="col">Фото</th>
                         <th scope="col">Марка</th>
                         <th scope="col">Тип кузова</th>
