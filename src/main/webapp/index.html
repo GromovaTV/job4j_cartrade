@@ -21,6 +21,7 @@
             crossorigin="anonymous"></script>
     <!-- noUiSlider JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <script>
     function redirect() {
@@ -35,8 +36,10 @@
             url: '/cartrade/all.do',
             dataType: 'json'
         }).done(function (data) {
+            var ads = data.ads; // Получаем список реклам
+            var user = data.user; // Получаем объект пользователя
             var tbody = $('<tbody></tbody>');
-            for (const item of data) {
+            for (const item of ads) {
                 var status = "Продается";
                 if (item.sold) {
                     status = "Продано";
@@ -48,9 +51,13 @@
                     fileName = nameParts[2];
                     console.log(fileName);
                 }
+                var td = $('<td>' + item.user.name + " " + '</td>');
+                if (user != null && user.name === item.user.name) {
+                    console.log(item.id);
+                    td.append('<a href="/cartrade/edit.html" onclick="return selectItem(' + item.id + ');"><i class="fa fa-edit mr-3"></i></a>\n');
+                }
                 var tr = $(
                     '<tr>' +
-                    '<td id="'+ item.user.id + '">' + item.user.name + '</td>' +
                     '<td><img src="/cartrade/download.do?name=' + fileName + '" width="100px" height="100px"/></td>' +
                     '<td><a href="/cartrade/about.html" data-id="' + item.id
                     + '" class="link" ' +
@@ -60,29 +67,13 @@
                     '<td>' + item.car.body.name + '</td>' +
                     '<td>' + item.price + "р." + '</td>' +
                     '</tr>');
+                tr.prepend(td);
                 tbody.append(tr);
-                // auth_check(item.user.id, item.user.name);
             }
             $('#table').append(tbody);
         }).fail(function () {
         });
     });
-</script>
-<script>
-    function auth_check(id, name) {
-        $.ajax({
-            cache: false,
-            type: 'GET',
-            url: '/cartrade/auth.do',
-            dataType: 'json'
-        }).done(function (data) {
-            if (data.name === name) {
-                var img = $('\n<a href="edit.html">Редактировать</a>');
-            }
-            $('#' + id).append(img);
-        }).fail(function () {
-        });
-    }
 </script>
 <script>
     $(document).ready(function () {
@@ -93,10 +84,13 @@
             dataType: 'json'
         }).done(function (data) {
             if (data) {
+                // var li = $('<li class="nav-item">\n' +
+                //     '<a class="nav-link pr-1" href="#" onclick="">' + data.name + " |" + '</a></li>' +
+                //     '<li class="nav-item"><a class="nav-link pl-1" href="/cartrade/index.html" onclick="logout();">Выйти</a>\n' +
+                //     '</li>');
                 var li = $('<li class="nav-item">\n' +
-                    '<a class="nav-link pr-1" href="#" onclick="">' + data.name + " |" + '</a></li>' +
-                    '<li class="nav-item"><a class="nav-link pl-1" href="#" onclick="logout();">Выйти</a>\n' +
-                    '</li>');
+                    '<button class="btn btn-secondary" type="button" onclick="logout();">' +
+                    data.name + " | Выйти" + '</button></li>');
             } else {
                 var li = $('<li class="nav-item">\n' +
                     '<a class="nav-link" href="/cartrade/login.html">Войти</a>\n' +
@@ -238,13 +232,17 @@
     }
 </style>
 <div class="container">
-    <div class="row">
-        <ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
-            </li>
-        </ul>
-    </div>
+    <div class="row align-items-center">
+    <ul class="nav my-3">
+        <li class="nav-item">
+            <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
+        </li>
+        <li class="nav-item">
+            <button type="submit" class="btn btn-primary mr-3" onclick="return redirect();">Разместить объявление</button>
+        </li>
+
+    </ul>
+</div>
     <div class="row py-4">
         <div class="card" style="width: 100%">
             <div class="card-body">
@@ -297,7 +295,7 @@
                         </div>
                     <!-- Кнопка "Показать объявления" -->
                         <div class="col-4">
-                            <button class="btn btn-primary" id="showAdsBtn" onclick="show();">Показать объявления</button>
+                            <button class="btn btn-primary ml-auto" id="showAdsBtn" onclick="show();">Показать объявления</button>
                         </div>
                     </div>
                 </div>
@@ -325,7 +323,7 @@
         </div>
     </div>
     <div class="row">
-        <button type="submit" class="btn btn-primary mt-3" onclick="return redirect();">Разместить объявление</button>
+        <!--<button type="submit" class="btn btn-primary mt-3" onclick="return redirect();">Разместить объявление</button>-->
     </div>
     <!-- Здесь будут отображаться результаты фильтрации -->
 </div>

@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder;
 import model.Ads;
 import model.AdsDTO;
 import model.Photo;
+import model.User;
 import repository.AdsRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
@@ -25,8 +27,9 @@ public class AboutService {
         Ads ads = AdsRepository.instOf().findAdsById(id);
         System.out.println(ads);
         AdsDTO adsDTO = new AdsDTO();
-        int user = 1;
-        if (user == ads.getUser().getId()) {
+        HttpSession sc = req.getSession();
+        User user = (User) sc.getAttribute("user");
+        if (user != null && user.getId() == ads.getUser().getId()) {
             adsDTO.setUser(true);
         }
         adsDTO.setBrand(ads.getCar().getBrand().getName());
