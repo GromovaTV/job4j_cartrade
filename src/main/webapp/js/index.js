@@ -25,10 +25,10 @@ $(document).ready(function () {
                 data.name + " | Выйти" + '</button></li>');
         } else {
             var li = $('<li class="nav-item">\n' +
-                '<a class="nav-link" href="/cartrade/login.html">Войти</a>\n' +
+                '<a class="nav-link" href="/cartrade/login.jsp">Войти</a>\n' +
                 '</li>' +
                 '<li class="nav-item">\n' +
-                '<a class="nav-link" href="/cartrade/reg.html">Регистрация</a>\n' +
+                '<a class="nav-link" href="/cartrade/reg.jsp">Регистрация</a>\n' +
                 '</li>');
         }
         $('.nav').append(li);

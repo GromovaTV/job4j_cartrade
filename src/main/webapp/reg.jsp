@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8" isELIgnored="false"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -18,7 +20,6 @@
     </script>
     <title>CarTrade</title>
 </head>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
 <script>
     function validate() {
         const name = $('#name').val();
@@ -39,33 +40,6 @@
         return true;
     }
 </script>
-<script>
-    function reg() {
-        console.log("reg");
-        validate();
-        const name = $("#name").val();
-        console.log(name);
-        const email = $("#email").val();
-        console.log(email);
-        const password = $("#password").val();
-        console.log(password);
-        $.ajax({
-            cache: false,
-            url: '/cartrade/reg.do',
-            type: 'POST',
-            data: {
-                name: name,
-                email: email,
-                password: password
-            }
-        }).done(function () {
-            window.location.href = "login.html";
-        }).fail(function () {
-            console.log("Error");
-            alert("Email занят");
-        });
-    }
-</script>
 <body>
 <div class="container pt-3">
     <div class="row">
@@ -74,20 +48,25 @@
                 Регистрация
             </div>
             <div class="card-body">
-                <form>
+                <form action="<%=request.getContextPath()%>/reg.do" method="post">
                     <div class="form-group">
-                        <label for="name">Имя пользователя</label>
+                        <label>Имя пользователя</label>
                         <input type="text" class="form-control" name="name" id="name" title="Введите имя">
                     </div>
                     <div class="form-group">
-                        <label for="email">Почта</label>
+                        <label>Почта</label>
                         <input type="text" class="form-control" name="email" id="email" title="Введите почту">
                     </div>
                     <div class="form-group">
-                        <label for="password">Пароль</label>
+                        <label>Пароль</label>
                         <input type="password" class="form-control" name="password" id="password" title="Введите пароль">
                     </div>
-                    <button type="submit" class="btn btn-primary" onclick="reg();">Зарегистрироваться</button>
+                    <button type="submit" class="btn btn-primary" onclick="return validate();">Зарегистрироваться</button>
+                    <c:if test="${not empty error}">
+                        <div style="color:red; font-weight: bold; margin: 30px 0;">
+                                ${error}
+                        </div>
+                    </c:if>
                 </form>
             </div>
         </div>
