@@ -5,16 +5,20 @@ import com.google.gson.GsonBuilder;
 import model.Ads;
 import model.Car;
 import model.SearchFilter;
+import model.User;
 import repository.AdsRepository;
 import repository.CarRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchFilterService {
     private static final Gson GSON = new GsonBuilder().create();
@@ -41,9 +45,14 @@ public class SearchFilterService {
             res = AdsRepository.instOf().findByCarAndPrice(cars, min, max);
         }
         System.out.println(res);
+        HttpSession sc = req.getSession();
+        User user = (User) sc.getAttribute("user");
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("ads", res);
+        responseData.put("user", user);
         resp.setContentType("application/json; charset=utf-8");
         OutputStream output = resp.getOutputStream();
-        String json = GSON.toJson(res);
+        String json = GSON.toJson(responseData);
         output.write(json.getBytes(StandardCharsets.UTF_8));
         output.flush();
         output.close();

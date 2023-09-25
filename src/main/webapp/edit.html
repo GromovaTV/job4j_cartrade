@@ -19,23 +19,9 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
     <title>CarTrade</title>
-    <!--<script src="../js/logout.js"></script>-->
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<script>
-    function logout() {
-        console.log(logout);
-        $.ajax({
-            cache: false,
-            url: '/cartrade/logout.do',
-            type: 'GET'
-        }).done(function () {
-            window.location.href = "/todo/login.jsp";
-        }).fail(function () {
-            console.log("Error");
-        });
-    }
-</script>
+<script src="js/logout.js" ></script>
 <script>
     $(document).ready(function () {
         $.ajax({
@@ -74,7 +60,7 @@
             }),
             dataType: 'json'
         }).done(function () {
-            console.log("Done");
+            window.location.href = "index.html";
         }).fail(function () {
             console.log("Error");
         });
@@ -86,9 +72,6 @@
         <ul class="nav">
             <li class="nav-item">
                 <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/cartrade/login.jsp" onclick="logout();">Выйти</a>
             </li>
         </ul>
     </div>

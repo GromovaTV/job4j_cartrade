@@ -19,25 +19,26 @@
     <title>CarTrade</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<script>
-    function validate() {
-        const email = $('#email').val();
-        if (email == "") {
-            alert($('#email').attr('title'));
-            return false;
-        }
-        const password = $('#password').val();
-        if (password == "") {
-            alert($('#password').attr('title'));
-            return false;
-        }
-        return true;
-    }
-</script>
+<!--<script>-->
+    <!--function validate() {-->
+        <!--const email = $('#email').val();-->
+        <!--if (email == "") {-->
+            <!--alert($('#email').attr('title'));-->
+            <!--return false;-->
+        <!--}-->
+        <!--const password = $('#password').val();-->
+        <!--if (password == "") {-->
+            <!--alert($('#password').attr('title'));-->
+            <!--return false;-->
+        <!--}-->
+        <!--return true;-->
+    <!--}-->
+<!--</script>-->
 <script>
     function auth() {
-        const email = $("#email").val();
-        const password = $("#password").val();
+        // validate();
+        var email = $("#email").val();
+        var password = $("#password").val();
         $.ajax({
             cache: false,
             url: '/cartrade/auth.do',
@@ -47,7 +48,9 @@
                 password: password
             },
             dataType: 'json'
-        }).done(function (data) {
+        }).done(function () {
+            console.log("Done");
+            window.location.href = "index.html";
         }).fail(function () {
             console.log("Error");
         });
@@ -73,7 +76,7 @@
                                    name="password">
                         </div>
                         <div class="form-group d-flex align-items-center">
-                            <button type="submit" class="btn btn-primary" onclick="auth();">Войти</button>
+                            <button type="button" class="btn btn-primary" onclick="auth();">Войти</button>
                             <div>
                                 <a class="nav-link" href="/cartrade/reg.html">Регистрация</a>
                             </div>

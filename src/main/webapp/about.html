@@ -21,19 +21,7 @@
     <title>CarTrade</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" ></script>
-<script>
-    function logout() {
-        console.log(logout);
-        $.ajax({
-            cache: false,
-            url: '/cartrade/logout.do',
-            type: 'GET'
-        }).done(function () {
-        }).fail(function () {
-            console.log("Error");
-        });
-    }
-</script>
+<script src="js/logout.js" ></script>
 <script>
     function loadPhoto(path) {
         var div = $('<div class="carousel-item"></div>');
@@ -85,6 +73,12 @@
         window.location.href = "/cartrade/upload.html";
     }
 </script>
+<style>
+    .btn-secondary {
+        background-color: aliceblue;
+        color: #000;
+    }
+</style>
 <body>
 <div class="container">
     <div class="row">
@@ -93,7 +87,7 @@
                 <a class="nav-link" href="/cartrade/index.html">Все объявления</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/cartrade/login.jsp" onclick="logout();">Выйти</a>
+                <button class="btn btn-secondary" type="button" onclick="logout();">Выйти</button>
             </li>
         </ul>
     </div>

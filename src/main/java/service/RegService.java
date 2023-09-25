@@ -22,11 +22,10 @@ public class RegService {
             System.out.println("reg");
             user = User.of(name, email, password);
             UserRepository.instOf().save(user);
-            resp.sendRedirect("index.html");
         } else {
             System.out.println("error");
             req.setAttribute("error", "Email занят");
-            req.getRequestDispatcher("login.html").forward(req, resp);
+            req.getRequestDispatcher("reg.html").forward(req, resp);
         }
         System.out.println("FINISH REG SERVLET get");
     }

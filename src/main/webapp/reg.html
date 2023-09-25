@@ -41,7 +41,8 @@
 </script>
 <script>
     function reg() {
-        console.log("reg")
+        console.log("reg");
+        validate();
         const name = $("#name").val();
         console.log(name);
         const email = $("#email").val();
@@ -58,9 +59,10 @@
                 password: password
             }
         }).done(function () {
-            console.log("Done");
+            window.location.href = "login.html";
         }).fail(function () {
             console.log("Error");
+            alert("Email занят");
         });
     }
 </script>

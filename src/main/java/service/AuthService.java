@@ -38,11 +38,10 @@ public class AuthService {
             System.out.println("auth done");
             HttpSession sc = req.getSession();
             sc.setAttribute("user", user);
-            resp.sendRedirect("/cartrade/index.html");
         } else {
             System.out.println("Error");
-            req.setAttribute("error", "Не верный email или пароль");
-            req.getRequestDispatcher("login.html").forward(req, resp);
+//            req.setAttribute("error", "Не верный email или пароль");
+//            req.getRequestDispatcher("login.html").forward(req, resp);
         }
         System.out.println("FINISH AUTH SERVLET post");
     }
