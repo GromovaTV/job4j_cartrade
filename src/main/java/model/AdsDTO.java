@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class AdsDTO {
+
     private String brand;
     private String body;
     private int price;

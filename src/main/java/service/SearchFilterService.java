@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SearchFilterService {
+
     private static final Gson GSON = new GsonBuilder().create();
 
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

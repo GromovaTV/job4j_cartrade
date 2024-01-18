@@ -5,9 +5,11 @@ import javax.persistence.*;
 @Entity
 @Table(name = "photos")
 public class Photo {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String path;
 
     public static Photo of(String path) {

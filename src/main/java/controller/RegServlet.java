@@ -1,6 +1,7 @@
 package controller;
 
 import service.RegService;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RegServlet extends HttpServlet {
+
     private RegService service = new RegService();
 
     @Override

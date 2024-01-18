@@ -4,26 +4,28 @@ import model.User;
 import org.hibernate.query.Query;
 
 public class UserRepository extends CommonRepository implements UserStore {
+
     private static final class Lazy {
-        private static UserStore INST;
+
+        private static UserStore inst;
     }
 
     private UserRepository() {
     }
 
     public static UserStore instOf() {
-        if (Lazy.INST == null) {
-            Lazy.INST = new UserRepository();
+        if (Lazy.inst == null) {
+            Lazy.inst = new UserRepository();
         }
-        return Lazy.INST;
+        return Lazy.inst;
     }
 
     @Override
     public User findUserById(int id) {
         return this.tx(
                 session -> {
-                    Query query = session.createQuery("select distinct u from User u " +
-                            "where u.id =:id");
+                    Query query = session.createQuery("select distinct u from User u "
+                            + "where u.id =:id");
                     query.setParameter("id", id);
                     User user = (User) query.uniqueResult();
                     return user;
@@ -35,8 +37,8 @@ public class UserRepository extends CommonRepository implements UserStore {
     public User findUserByEmail(String email) {
         return this.tx(
                 session -> {
-                    Query query = session.createQuery("select distinct u from User u " +
-                            "where u.email =:email");
+                    Query query = session.createQuery("select distinct u from User u "
+                            + "where u.email =:email");
                     query.setParameter("email", email);
                     User user = (User) query.uniqueResult();
                     return user;

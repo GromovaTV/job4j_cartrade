@@ -3,6 +3,7 @@ package model;
 import java.util.Arrays;
 
 public class SearchFilter {
+
     String[] brands = new String[2];
     String[] bodies = new String[2];
     String min;

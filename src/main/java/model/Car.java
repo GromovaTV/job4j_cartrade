@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "cars")
 public class Car {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -16,7 +17,6 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "body_id")
     private Body body;
-
 
     public static Car of(Brand brand, Body body) {
         Car car = new Car();

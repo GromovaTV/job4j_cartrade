@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.User;
 import repository.UserRepository;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +14,7 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 
 public class AuthService {
+
     private static final Gson GSON = new GsonBuilder().create();
 
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

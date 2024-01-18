@@ -6,14 +6,15 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
 import java.util.function.Function;
 
 public class CommonRepository implements AutoCloseable {
-    private static final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure().build();
-    private static final SessionFactory sf = new MetadataSources(registry)
-            .buildMetadata().buildSessionFactory();
 
+    private static final StandardServiceRegistry REGISTRY = new StandardServiceRegistryBuilder()
+            .configure().build();
+    private static final SessionFactory SF = new MetadataSources(REGISTRY)
+            .buildMetadata().buildSessionFactory();
 
     protected <T> T create(T t) {
         return tx(session -> {
@@ -30,7 +31,7 @@ public class CommonRepository implements AutoCloseable {
     }
 
     protected <T> T tx(final Function<Session, T> command) {
-        final Session session = sf.openSession();
+        final Session session = SF.openSession();
         final Transaction tx = session.beginTransaction();
         try {
             T rsl = command.apply(session);
@@ -47,7 +48,7 @@ public class CommonRepository implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
-        StandardServiceRegistryBuilder.destroy(registry);
+        StandardServiceRegistryBuilder.destroy(REGISTRY);
     }
 }
 

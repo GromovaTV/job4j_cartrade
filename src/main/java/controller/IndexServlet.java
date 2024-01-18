@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class IndexServlet extends HttpServlet {
+
     private IndexService service = new IndexService();
 
     @Override

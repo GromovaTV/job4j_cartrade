@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import model.Ads;
 import model.User;
 import repository.AdsRepository;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 public class IndexService {
+
     private static final Gson GSON = new GsonBuilder().create();
 
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

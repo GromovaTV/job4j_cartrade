@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import model.*;
 import repository.AdsRepository;
 import repository.CarRepository;
-import repository.UserRepository;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class EditService {
+
     private static final Gson GSON = new GsonBuilder().create();
 
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

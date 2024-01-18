@@ -8,19 +8,27 @@ import java.util.List;
 @Entity
 @Table(name = "ads")
 public class Ads {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String description;
+
     private boolean sold;
+
     private int price;
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
+
     @OneToOne
     @JoinColumn(name = "car_id")
     private Car car;
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Photo> photos = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

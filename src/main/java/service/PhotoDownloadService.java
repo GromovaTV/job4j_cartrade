@@ -2,11 +2,15 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class PhotoDownloadService {
+
     private static final Gson GSON = new GsonBuilder().create();
 
     public void handleGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
